@@ -1,38 +1,77 @@
-To install JDK and Maven on Ubuntu, the recommended approach is to use the  package manager for simplicity and ease of updates. [1]  
-1. Install JDK (Java Development Kit) [2]  
-Maven requires a JDK to be installed. OpenJDK 17 is a recommended, stable, Long-Term Support (LTS) version. 
+To install the Java Development Kit (JDK) and Apache Maven on Ubuntu, you can use the APT package manager for the quickest setup. For developers who need the absolute latest versions, a manual binary installation is recommended. [1, 2, 3, 4] 
+Method 1: Fast Installation (Using APT)
+This is the easiest way to get started, though the versions in the official repositories may not always be the latest. [3, 5] 
 
-• Update your package lists: 
-• Install OpenJDK 17: 
-• Verify the installation: 
-• You should see output indicating OpenJDK version 17. 
-• Set the  environment variable (optional but recommended for clarity):While Maven often finds the JDK automatically, setting  explicitly is a best practice. The path for APT-based OpenJDK 17 is typically . 
+   1. Update your package index:
+   
+   sudo apt update
+   
+   2. Install the JDK:
+   You can install the [default-jdk](https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-20-04/) package, which currently points to OpenJDK 21 on Ubuntu 24.04 LTS.
+   
+   sudo apt install default-jdk
+   
+   3. Install Maven:
+   
+   sudo apt install maven
+   
+   4. Verify both installations:
+   
+   java -version
+   mvn -version
+   
+   [6, 7, 8, 9, 10] 
 
-	• Open your  (or ) file in a text editor (e.g., ): 
-	• Add the following line to the end of the file: 
-	• Save the file (Ctrl+O, Enter) and exit the editor (Ctrl+X). 
-	• Apply the changes to your current terminal session: [3, 4, 5, 6, 7]  
+------------------------------
+Method 2: Latest Version (Manual Binary Install)
+Use this method if you need a specific recent version, such as Maven 3.9.9. [1, 11] 
+1. Install JDK
+It is still recommended to use apt for the JDK to receive security updates. [7] 
 
-2. Install Maven 
-You can install Maven using the  package manager or by manually downloading the binary archive for the latest version. [8, 9, 10]  
-Method A: Install via APT (Recommended for simplicity) This method is the simplest but might not provide the absolute latest Maven version. 
+sudo apt update
+sudo apt install openjdk-17-jdk  # Or openjdk-21-jdk
 
-• Install Maven: [12]  
+2. Download and Extract Maven [12] 
 
-Method B: Install Manually (For the latest version) This method ensures you get the most up-to-date release directly from the Apache Maven website. 
+   1. Download the archive: Get the latest link from the [Official Maven Download Page](https://maven.apache.org/download.cgi).
+   
+   wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz -P /tmp
+   
+   2. Extract to /opt:
+   
+   sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
+   sudo ln -s /opt/apache-maven-3.9.9 /opt/maven  # Create a symbolic link for easy upgrades
+   
+   [13, 14, 15] 
 
-• Download the latest Maven binary archive:First, check the  Apache Maven website 
- for the latest version (e.g., 3.9.9 as of a recent snippet). 
-• Extract the archive: 
-• Create a symbolic link for easy version management: 
-• Configure environment variables: 
+3. Configure Environment Variables [1] 
+You must tell Ubuntu where to find the new Maven binaries by editing your ~/.bashrc (for your user) or /etc/profile.d/maven.sh (system-wide). [1, 16] 
 
-	• Create a script file in  to set  and update the  for all users: 
-	• Add the following lines to the file: 
-	• Save and exit the editor. 
-	• Make the script executable: 
-	• Apply the changes: [3, 13, 14, 15, 16]  
+   1. Open the configuration file:
+   
+   sudo nano /etc/profile.d/maven.sh
+   
+   2. Add these lines (adjust paths if you used different versions):
+   
+   export JAVA_HOME=/usr/lib/jvm/default-java
+   export M2_HOME=/opt/maven
+   export PATH=${M2_HOME}/bin:${PATH}
+   
+   3. Apply changes:
+   
+   sudo chmod +x /etc/profile.d/maven.sh
+   source /etc/profile.d/maven.sh
+   
+   [17, 18, 19, 20, 21] 
 
-3. Verify Maven Installation 
-Open a new terminal session (or run  if you only edited that file, or  as needed) and verify the installation: [17, 18, 19, 20]  
-The output should display the Maven version, along with the installed Java version and  path, confirming a successful setup. [3]  
+Summary of Key Commands
+
+| Action [6, 14, 22, 23, 24] | APT Method | Binary Method |
+|---|---|---|
+| Install JDK | sudo apt install default-jdk | sudo apt install openjdk-17-jdk |
+| Install Maven | sudo apt install maven | wget + tar to /opt/maven |
+| Set Path | Automatic | Manual in ~/.bashrc or /etc/profile.d/ |
+| Verify | mvn -version | mvn -version |
+
+[23] [https://kedarpattanshetti.hashnode.dev](https://kedarpattanshetti.hashnode.dev/day-48-installing-jenkins-on-ubuntu)
+[24] [https://sambitsinha.hashnode.dev](https://sambitsinha.hashnode.dev/day-1-cicd-setting-up-and-deploying-a-java-application)
