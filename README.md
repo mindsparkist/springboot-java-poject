@@ -124,3 +124,51 @@ mvn clean install
 ```
 This actually tells Maven to run two completely different lifecycles back-to-back. First, it runs the `clean` lifecycle to wipe away the `target/` directory (where old compiled files live). Then, it runs the `default` lifecycle all the way up to the `install` phase. It is the best way to ensure you are getting a fresh, pristine build.
 
+
+## Step-by-step commands to run in your own Ubuntu terminal to get this Spring Boot application up and running perfectly. 
+
+Here is exactly what you need to do:
+
+### Step 1: Clone the Repository
+The URL you provided includes `/tree/main`, which is the web view. To clone it, we just use the base repository URL. Open your terminal and run:
+
+```bash
+git clone https://github.com/mindsparkist/springboot-java-poject.git
+```
+
+### Step 2: Navigate into the Project
+Move into the directory that Git just created:
+
+```bash
+cd springboot-java-poject
+```
+
+### Step 3: Build the Project with Maven
+Now, we will use the Maven installation we set up earlier to compile the code, run any tests, and package it into an executable `.jar` file. 
+
+```bash
+mvn clean install
+```
+*(This might take a minute or two the first time, as Maven will download all the necessary Spring Boot dependencies from the internet.)*
+
+### Step 4: Run the Application
+Once the build is successful (you will see a big `BUILD SUCCESS` message), Maven will have placed your compiled `.jar` file inside a newly created `target/` directory.
+
+To run it, use the `java -jar` command. You can usually use the wildcard `*` to catch the generated jar file without typing the full version number:
+
+```bash
+java -jar target/*.jar
+```
+*(If the wildcard doesn't work, you can type `ls target/` to see the exact name of the `.jar` file, and then run `java -jar target/exact-file-name.jar`).*
+
+You should see the Spring Boot logo pop up in your terminal, followed by a bunch of log messages. Look for a line near the bottom that says something like `Tomcat started on port(s): 8080 (http)`.
+
+### Step 5: Check the App on Port 8080
+Once the application is running, open your web browser and navigate to:
+
+**http://localhost:8080**
+
+Alternatively, if you want to test it straight from another terminal window, you can open a new tab and run:
+```bash
+curl http://localhost:8080
+```
